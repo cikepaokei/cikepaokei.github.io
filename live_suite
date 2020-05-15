@@ -1,0 +1,764 @@
+<!--
+ * @Author: cikepaokei
+ * @Date: 2020-05-14 15:29:50
+ * @LastEditTime: 2020-05-15 20:42:05
+ * @LastEditors: cikepaokei
+ * @Description: In User Settings Edit
+ * @FilePath: NULL
+ -->
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .notepad-frame {
+        overflow: hidden;
+      }
+
+      ul.notepad-main {
+        background-color: #eac565;
+        list-style: none;
+        margin: 0;
+        padding: 2em 0;
+        border-radius: 5px;
+        transition: 0.2s all ease;
+        overflow: hidden;
+      }
+
+      div.notepad-main {
+        list-style: none;
+        margin: 0;
+        padding: 2em 0;
+        border-radius: 8px;
+        transition: 0.2s all ease;
+        overflow: hidden;
+      }
+
+      .notepad-paper-color-default {
+        background-color: #eac565;
+      }
+
+      .notepad-paper-color-red {
+        background-color: #fdb2c7;
+      }
+
+      .notepad-paper-color-yellow {
+        background-color: #feed84;
+      }
+
+      .notepad-paper-color-blue {
+        background-color: #8ccad9;
+      }
+
+      .notepad-paper-color-green {
+        background-color: #d2dc83;
+      }
+
+      .notepad-paper-color-purple {
+        background-color: #d4b5d7;
+      }
+
+      .notepad-paper-color-orange {
+        background-color: #f85f36;
+      }
+
+      .notepad-paper-color-deepblue {
+        background-color: #73a4c2;
+      }
+
+      .notepad-paper-color-button {
+        cursor: pointer;
+        position: relative;
+        display: block;
+        width: 2em;
+        height: 2em;
+        border: 1px solid rgb(78, 52, 34);
+        float: left;
+        margin-right: 0.2em;
+        margin-top: 0.5em;
+        border-radius: 0.5em;
+        font-size: x-small;
+      }
+
+      li.notepad-row-line {
+        min-height: 1em;
+        border-bottom: 1px solid #109084;
+        text-indent: 55px;
+        margin: 5px 0;
+      }
+
+      input.notepad-row-line {
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid #109084;
+        text-indent: 55px;
+        margin: 5px 0;
+        padding: 0;
+        font-size: 16px;
+        transition: 0.2s all ease;
+        background-color: transparent;
+      }
+
+      input.notepad-row-line:focus {
+        border: 2px solid #9075ff;
+        position: relative;
+        border-left: none;
+        border-right: none;
+        transition: 0.2s all ease;
+        font-size: 24px;
+      }
+
+      input.notepad-row-line::selection {
+        color: #fff;
+        background: #ff5e2c;
+      }
+
+      p.notepad-row-line {
+        cursor: text;
+        position: relative;
+        display: block;
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid #109084;
+        text-indent: 55px;
+        margin: 5px 0;
+        padding: 0;
+        font-size: 24px; /* 16px */
+        font-family: sans-serif;
+        transition: 0.2s all ease;
+        background-color: transparent;
+      }
+
+      .animation-album-in {
+        animation: 0.8s album-in ease;
+      }
+
+      p.notepad-row-line:focus {
+        border: 2px solid #9075ff;
+        position: relative;
+        border-left: none;
+        border-right: none;
+        transition: 0.2s all ease;
+        font-size: 36px; /* 24px */
+      }
+
+      p.notepad-row-line::selection {
+        color: #fff;
+        background: #ff5e2c;
+      }
+
+      .notepad-col-line {
+        border-right: 1px double #c9281c;
+        border-left: 1px solid #c9281c;
+        width: 5px;
+        float: left;
+        /* height: 279px; */
+        /*需要捕获notepad-main的高度（height）*/
+        margin-left: 2em;
+        position: absolute;
+        transition: 0.1s all linear;
+      }
+
+      /* .notepad-frame:before {
+        content: '';
+        width: 1.5em;
+        height: 1.5em;
+        background: conic-gradient(#ee452200 0% 12.5%,
+            #e9df2d00 12.5% 37.5%,
+            #eac565 37.5% 62.5%,
+            #37946e00 62.5% 87.5%,
+            #ee452200 87.5% 100%);
+        position: absolute;
+        margin-top: -1.3em;
+        margin-left: 255px;
+    } */
+
+      .notepad-jagged {
+        /*content: '';
+        width: 300px;
+        height: 50px;
+        display: block;
+        background: url(./svg/notepad_1.svg);
+        background-size: 30px;
+        background-repeat-y: no-repeat;
+        position: absolute;*/
+        width: 1.5em;
+        height: 1.5em;
+        background: conic-gradient(
+          #ee452200 0% 12.5%,
+          #e9df2d00 12.5% 37.5%,
+          #eac565 37.5% 62.5%,
+          #37946e00 62.5% 87.5%,
+          #ee452200 87.5% 100%
+        );
+        position: absolute;
+        margin-top: -1.3em;
+        right: 20px;
+      }
+
+      .show {
+        opacity: 1;
+      }
+
+      .hidden {
+        opacity: 0;
+      }
+
+      .notepad-edit-menu {
+        position: absolute;
+        z-index: 50;
+        transition: 0.4s opacity ease;
+      }
+
+      .notepad-edit-menu-button {
+        cursor: pointer;
+        position: relative;
+        display: block;
+        width: 1em;
+        height: 1em;
+        border: 1px solid #000;
+        text-align: center;
+        font-size: 28px;
+        float: left;
+        margin-right: 2px;
+        background-color: #814bf5;
+        color: #fff;
+        border: 1px solid #121111;
+      }
+
+      .btn-add-rowline {
+        position: relative;
+        display: block;
+        width: 1em;
+        text-align: center;
+        font-weight: bold;
+        font-size: xx-large;
+        background-color: #9350e2;
+        color: #fff;
+        float: right;
+        border-radius: inherit;
+        margin-right: 5px;
+      }
+
+      .btn-add-rowline:hover {
+        cursor: pointer;
+        width: 1em;
+        text-align: center;
+        font-weight: bold;
+        font-size: xx-large;
+        background-color: #a68af3;
+        color: #fff;
+        float: right;
+        border-radius: inherit;
+        margin-right: 5px;
+        transform: scale(1.2);
+        transition: 0.2s transform ease;
+      }
+
+      .btn-toolbar {
+        position: absolute;
+        display: block;
+        min-width: 1.1em;
+        min-height: 1em;
+        text-align: center;
+        font-weight: bold;
+        font-size: x-large;
+        background-color: #e0e0e0;
+        color: rgb(39, 10, 77);
+        margin-right: 5px;
+        border-radius: 50%;
+        right: 10px;
+        margin-top: 0.3em;
+      }
+
+      .btn-toolbar:hover {
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        font-size: xx-large;
+        background-color: #a68af3;
+        color: #fff;
+        border-radius: 50%;
+        transform: scale(1.2);
+        transition: 0.2s transform ease;
+      }
+
+      .btn-ok {
+        background-color: rgb(255, 255, 255);
+        color: rgb(122, 22, 153);
+        /* float: right; */
+        border-radius: 50%;
+        margin-right: 1em;
+      }
+
+      .btn-ok:hover {
+        background-color: rgb(184, 153, 255);
+        color: rgb(108, 30, 180);
+        transition: 0.2s all ease;
+      }
+
+      .btn-red {
+        background-color: #ed1c24;
+      }
+
+      .btn-yellow {
+        background-color: #fff200;
+      }
+
+      .btn-green {
+        background-color: #00a651;
+      }
+
+      .btn-cyan {
+        background-color: #00aeef;
+      }
+
+      .btn-blue {
+        background-color: #2e3192;
+      }
+
+      .btn-magenta {
+        background-color: #ec008c;
+      }
+
+      .btn-black {
+        background-color: #000;
+      }
+
+      .none {
+        z-index: -100;
+      }
+
+      .block {
+        z-index: 100;
+      }
+
+      .btn-panel {
+        margin-bottom: 0.5em;
+        overflow: hidden;
+        position: relative;
+        float: left;
+        transition: 0.4s all ease;
+      }
+
+      @keyframes flip {
+        0% {
+          transform: rotate3d(0, 0, 0, 0deg);
+        }
+
+        50% {
+          transform: rotate3d(0, 1, 0, 90deg);
+          filter: brightness(1.5);
+          opacity: 0.2;
+        }
+
+        100% {
+          transform: rotate3d(0, 0, 0, 0deg);
+        }
+      }
+
+      @keyframes album-in {
+        0% {
+          transform: rotate3d(-1, 0, 0, -80deg) translate3d(-90px, 10px, -5px)
+            scale(1.2);
+        }
+
+        100% {
+          transform: rotate3d(0, 0, 0, 0deg) translate3d(0px, 0px, 0px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 笔记本（Notepad）小工具 样式示例 -->
+    <div class="notepad-frame">
+      <!-- 笔记本 竖向双道红线-->
+      <div class="notepad-col-line"></div>
+      <!-- 笔记本 锯齿 -->
+      <div class="notepad-jagged"></div>
+      <!-- 笔记本 编辑菜单 -->
+      <div class="notepad-edit-menu hidden none" aria-hidden="true">
+        <div class="btn-panel">
+          <span id="btn-bold" class="notepad-edit-menu-button btn-bold"
+            ><strong>B</strong></span
+          >
+          <span id="btn-italic" class="notepad-edit-menu-button btn-italic"
+            ><i>I</i></span
+          >
+          <span id="btn-strike" class="notepad-edit-menu-button btn-strike"
+            ><s>S</s></span
+          >
+          <span id="btn-ok" class="notepad-edit-menu-button btn-ok">✔</span>
+        </div>
+        <div class="btn-panel">
+          <span id="btn-red" class="notepad-edit-menu-button btn-red"></span>
+          <span
+            id="btn-yellow"
+            class="notepad-edit-menu-button btn-yellow"
+          ></span>
+          <span
+            id="btn-green"
+            class="notepad-edit-menu-button btn-green"
+          ></span>
+          <span id="btn-cyan" class="notepad-edit-menu-button btn-cyan"></span>
+          <span id="btn-blue" class="notepad-edit-menu-button btn-blue"></span>
+          <span
+            id="btn-magenta"
+            class="notepad-edit-menu-button btn-magenta"
+          ></span>
+          <span
+            id="btn-black"
+            class="notepad-edit-menu-button btn-black"
+          ></span>
+        </div>
+      </div>
+
+      <!-- 笔记本 主要内容 -->
+      <div class="notepad-main notepad-paper-color-default">
+        <p class="notepad-row-line" contenteditable="true">Writing there!</p>
+        <div id="btn-add-rowline" class="btn-add-rowline">+</div>
+      </div>
+
+      <div id="notepad-toolbar">
+        <div id="btn-toolbar" class="btn-toolbar">&lt;</div>
+        <div id="nontepad-paper-color-panel" class="btn-panel">
+          <!-- <span id="notepad-paper-color-default" class="notepad-paper-color-button notepad-paper-color-default"></span>
+                <span id="notepad-paper-color-red" class="notepad-paper-color-button notepad-paper-color-red"></span>
+                <span id="btn-green" class="notepad-paper-color-button notepad-paper-color-yellow"></span>
+                <span id="btn-cyan" class="notepad-paper-color-button notepad-paper-color-blue"></span>
+                <span id="btn-blue" class="notepad-paper-color-button notepad-paper-color-green"></span>
+                <span id="btn-magenta" class="notepad-paper-color-button notepad-paper-color-purple"></span>
+                <span id="btn-black" class="notepad-paper-color-button notepad-paper-color-orange"></span> -->
+        </div>
+      </div>
+
+      <!-- <ul class="notepad-main">
+            <input class="notepad-row-line" type="text" value="Writing there!">
+            <input class="notepad-row-line" type="text" value="My list of fruits">
+            <input class="notepad-row-line" type="text" value="Apple">
+            <input class="notepad-row-line" type="text" value="Jade avocado">
+            <input class="notepad-row-line" type="text" value="Watermelon">
+            <input class="notepad-row-line" type="text" value="Fig">
+            <input class="notepad-row-line" type="text" value="Lime">
+            <li class="notepad-row-line"></li>
+            <li class="notepad-row-line">Apple</li>
+            <li class="notepad-row-line">Jade avocado</li>
+            <li class="notepad-row-line">Watermelon</li>
+            <li class="notepad-row-line">Fig</li>
+            <li class="notepad-row-line">Lime</li>
+         </ul> -->
+    </div>
+
+    <script>
+      var main = document.getElementsByClassName("notepad-main")[0];
+      var rowlineclass = "notepad-row-line";
+      var editmenu = document.getElementsByClassName("notepad-edit-menu")[0];
+
+      var editmenuMouseupX, editmenuMouseupY;
+      var maxEditmenuMouseupX = 200,
+        editmenuMouseupY = 200;
+
+      function getNotepadOffsetHeight() {
+        var main = document.getElementsByClassName("notepad-main")[0];
+        var height = main.offsetHeight;
+
+        return height;
+      }
+
+      function setColLineHeight(height) {
+        var colline = document.getElementsByClassName("notepad-col-line")[0];
+        var height = colline.setAttribute("style", `height: ${height}px`);
+      }
+
+      function bold() {
+        document.execCommand("bold", false, null);
+      }
+
+      function italic() {
+        document.execCommand("italic", false, null);
+      }
+
+      function strike() {
+        document.execCommand("strikeThrough", false, null);
+      }
+
+      function foreColor(color) {
+        document.execCommand("foreColor", false, color);
+      }
+
+      // 添加一行笔记
+      function addRowline(btn, notepad) {
+        var rowline = document.createElement("p");
+        var defaultClass = "notepad-row-line";
+
+        rowline.setAttribute("class", defaultClass);
+        rowline.setAttribute("contenteditable", true);
+        // btn.parentNode.removeChild(btn);
+        notepad.appendChild(rowline);
+        notepad.appendChild(btn);
+      }
+
+      // 添加 编辑菜单-“加粗、斜体和删除线”按钮 事件监听
+      function addEditBtnEvent(btn, event, todo) {
+        btn.addEventListener(event, todo, false);
+        btn.addEventListener(
+          "mousedown",
+          function (e) {
+            e.preventDefault();
+          },
+          false
+        );
+      }
+
+      /**
+       * @description: 添加 编辑菜单-颜色按钮 事件监听
+       * @param {type}
+       * @return: (void)
+       */
+
+      function addColorBtnEvent(btn, event, color) {
+        btn.addEventListener(
+          event,
+          function () {
+            foreColor(color);
+          },
+          false
+        );
+        btn.addEventListener(
+          "mousedown",
+          function (e) {
+            e.preventDefault();
+          },
+          false
+        );
+      }
+
+      // 添加 编辑菜单-“加粗、斜体和删除线”按钮 事件监听
+      function addPaperColorBtnEvent(btn, event, todo) {
+        btn.addEventListener(event, todo, false);
+        btn.addEventListener(
+          "mousedown",
+          function (e) {
+            e.preventDefault();
+          },
+          false
+        );
+      }
+
+      /**
+       * @description: 获取元素背景颜色
+       * @param {type}
+       * @return: String (颜色代码)
+       */
+
+      function getElementBackgroundColor(element) {
+        var backgroundColor = window.getComputedStyle(element, null)
+          .backgroundColor;
+        return backgroundColor;
+      }
+
+      /**
+       * @description: 获取所有纸张颜色
+       * @param {type}
+       * @return: Array
+       */
+
+      function getNotepadPaperColorArray() {
+        var paperColor = [
+          "notepad-paper-color-default",
+          "notepad-paper-color-red",
+          "notepad-paper-color-yellow",
+          "notepad-paper-color-blue",
+          "notepad-paper-color-green",
+          "notepad-paper-color-purple",
+          "notepad-paper-color-orange",
+          "notepad-paper-color-deepblue",
+        ];
+        return paperColor;
+      }
+
+      /**
+       * @description: 设置纸张颜色
+       * @param {type}
+       * @return: (void)
+       */
+
+      function setElementBackgroundColorByClass(element, colorClass) {
+        var paperColor = getNotepadPaperColorArray();
+
+        //移除 所有旧有纸张颜色
+        for (let i = 0; i < paperColor.length; i++) {
+          element.classList.remove(paperColor[i]);
+        }
+        element.classList.add(colorClass);
+      }
+
+      // 新增按钮事件监听
+      var addBtnRowline = document.getElementById("btn-add-rowline");
+
+      addBtnRowline.addEventListener(
+        "click",
+        function () {
+          addRowline(addBtnRowline, main);
+        },
+        false
+      );
+
+      // 笔记本事件监听
+      main.addEventListener("click", function () {}, false);
+
+      var btnBold = document.getElementById("btn-bold");
+      var btnItalic = document.getElementById("btn-italic");
+      var btnStrike = document.getElementById("btn-strike");
+
+      addEditBtnEvent(btnBold, "click", bold); // 添加 加粗按钮   事件监听
+      addEditBtnEvent(btnItalic, "click", italic); // 添加 斜体按钮   事件监听
+      addEditBtnEvent(btnStrike, "click", strike); // 添加 删除线按钮 事件监听
+
+      var colorBtnList = [
+        "btn-red",
+        "btn-yellow",
+        "btn-green",
+        "btn-cyan",
+        "btn-blue",
+        "btn-magenta",
+        "btn-black",
+      ];
+
+      // 添加 颜色按钮 事件监听
+      for (let i = 0; i < colorBtnList.length; i++) {
+        let btn = document.getElementById(colorBtnList[i]); // 获取按钮
+        let btnColor = getElementBackgroundColor(btn); // 获取颜色
+
+        addColorBtnEvent(btn, "click", btnColor); // 添加事件监听
+      }
+
+      // 编辑菜单 事件监听
+      editmenu.addEventListener(
+        "transitionend",
+        function () {
+          if (editmenu.getAttribute("aria-hidden") == "true") {
+            editmenu.classList.remove("block");
+            editmenu.classList.add("none");
+          } else {
+            editmenu.classList.remove("none");
+            editmenu.classList.add("block");
+          }
+        },
+        false
+      );
+
+      // 文档事件监听
+      var rowlineheight = 10;
+
+      document.addEventListener(
+        "keydown",
+        function (e) {
+          var activeObject = document.activeElement;
+
+          setColLineHeight(getNotepadOffsetHeight());
+
+          if (e && e.keyCode == 13) {
+            // enter 键
+            if (activeObject.className == "notepad-row-line") {
+              editmenu.classList.remove("show");
+              editmenu.classList.add("hidden");
+              editmenu.setAttribute("aria-hidden", true);
+            }
+          }
+        },
+        false
+      );
+
+      document.addEventListener(
+        "click",
+        function () {
+          setColLineHeight(getNotepadOffsetHeight());
+        },
+        false
+      );
+
+      document.addEventListener("mouseup", function (e) {
+        var activeObject = document.activeElement;
+        var btnAddRowLine = document.getElementById("btn-add-rowline");
+        var btnAddRowLineWidth = btnAddRowLine.offsetWidth;
+        var left = 60;
+        var top =
+          activeObject.offsetTop + activeObject.offsetHeight + rowlineheight;
+
+        if (document.activeElement.className == "notepad-row-line") {
+          editmenu.setAttribute(
+            "style",
+            `left: ${left}px; top: ${top}px; margin-right: ${
+              btnAddRowLineWidth * 2
+            }px;`
+          );
+          editmenu.classList.remove("none");
+          editmenu.classList.add("block");
+          editmenu.classList.remove("hidden");
+          editmenu.classList.add("show");
+          editmenu.setAttribute("aria-hidden", false);
+          editmenuMouseupX = e.clientX;
+          editmenuMouseupY = e.clientY;
+        } else {
+          editmenu.classList.remove("show");
+          editmenu.classList.add("hidden");
+          editmenu.setAttribute("aria-hidden", true);
+        }
+      });
+
+      document.addEventListener("mousedown", function (e) {
+        editmenu.classList.remove("show");
+        editmenu.classList.add("hidden");
+        editmenu.setAttribute("aria-hidden", true);
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        // console.log(editmenuMouseupX);
+        // console.log(editmenuMouseupY);
+        // console.log(e.clientX);
+        // console.log(e.clientY);
+        // if(Math.abs(editmenuMouseupX - e.clientX) > maxEditmenuMouseupX ) {
+        //     editmenu.setAttribute('style', `opacity: 0;`);
+        // }
+      });
+
+      setColLineHeight(getNotepadOffsetHeight());
+
+      function addPaperColorBtn(paperColorArray) {
+        var paperColorBar = document.getElementById(
+          "nontepad-paper-color-panel"
+        );
+
+        for (let i = 0; i < paperColorArray.length; i++) {
+          let span = document.createElement("span");
+
+          span.setAttribute("id", paperColorArray[i]);
+          span.classList.add("notepad-paper-color-button", paperColorArray[i]);
+
+          paperColorBar.appendChild(span);
+        }
+      }
+
+      function addAllOfPaperColorBtnEvent(paperColorArray) {
+        for (let i = 0; i < paperColorArray.length; i++) {
+          var span = document.getElementById(paperColorArray[i]);
+
+          span.addEventListener(
+            "click",
+            function () {
+              setElementBackgroundColorByClass(main, paperColorArray[i]);
+            },
+            false
+          );
+        }
+      }
+
+      addPaperColorBtn(getNotepadPaperColorArray());
+      addAllOfPaperColorBtnEvent(getNotepadPaperColorArray());
+    </script>
+  </body>
+</html>
