@@ -12,7 +12,7 @@ function breakTime() {
     var icon = document.createElement("span");
     icon.setAttribute("class", "info-icon");
     var iconImg = document.createElement("img");
-    iconImg.setAttribute("src", "tea_pot.png");
+    iconImg.setAttribute("src", "./img/tea_pot.png");
     iconImg.setAttribute("class", "info-icon-img");
     icon.appendChild(iconImg);
     bar.appendChild(icon);
@@ -31,7 +31,7 @@ function breakTime() {
     var msgText = document.createTextNode("休息会儿~");
     msg.appendChild(msgText);
     var textToImg = document.createElement("img");
-    textToImg.setAttribute("src", "GreedyGloriousDuck-max-1mb.gif");
+    textToImg.setAttribute("src", "./img/GreedyGloriousDuck-max-1mb.gif");
     textToImg.setAttribute("class", "textToImg");
     msg.appendChild(textToImg);
     bar.appendChild(msg);
