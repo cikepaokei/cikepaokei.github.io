@@ -4,7 +4,6 @@
  * @LastEditTime: 2020-07-26 15:40:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \undefinedc:\Users\74703\Desktop\live\live - 200515.js
  */
 
 const textEncoder = new TextEncoder('utf-8');
@@ -171,7 +170,7 @@ const decode = function(blob){
 const ws = new WebSocket('wss://broadcastlv.chat.bilibili.com:2245/sub');
 ws.onopen = function () {
   ws.send(encode(JSON.stringify({
-    "roomid": 12962
+    "roomid": 3978831
   }), 7));
 };
 // 如果使用的是控制台，这两句一定要一起执行，否侧onopen不会被触发
@@ -233,7 +232,7 @@ ws.onmessage = async function (msgEvent) {
       //添加图标功能
       var app_1 = toolbar.childNodes[0];
       app_1_img = document.createElement("img");
-      app_1_img.setAttribute("src", "star.gif");
+      app_1_img.setAttribute("src", "./img/star.gif");
       app_1_img.setAttribute("class", "toolbar-icon-img");
       app_1_img.setAttribute("onclick", "breakTime()");
       app_1.appendChild(app_1_img);
@@ -331,7 +330,7 @@ ws.onmessage = async function (msgEvent) {
             if (body.info[3][1] == "跑尅") {
               var fan = document.createElement("img");
               fan.setAttribute("class", "fanImg");
-              fan.setAttribute("src", "Nycan_Cat.gif");
+              fan.setAttribute("src", "./img/Nycan_Cat.gif");
               bar.appendChild(fan);
 
               // var fan = document.createElement("span");
@@ -366,69 +365,69 @@ ws.onmessage = async function (msgEvent) {
             // console.log(str.indexOf("！") != -1);
             if (str.indexOf("晚上好") != -1) {
               var img = document.createElement("img");
-              img.setAttribute("src", "donut.gif");
+              img.setAttribute("src", "./img/donut.gif");
               msg.appendChild(img);
             }
 
             if (str.indexOf("下午好") != -1) {
               var img = document.createElement("img");
               img.setAttribute("class", "textToImg");
-              img.setAttribute("src", "giphy.gif");
+              img.setAttribute("src", "./img/giphy.gif");
               msg.appendChild(img);
             }
 
             if (str.indexOf("新年好") != -1) {
               var img = document.createElement("img");
-              img.setAttribute("src", "NY2020-200px.png");
+              img.setAttribute("src", "./img/NY2020-200px.png");
               msg.appendChild(img);
             }
 
             if (str.indexOf(":RED") != -1) {
               var img = document.createElement("img");
               img.setAttribute("class", "textToIcon");
-              img.setAttribute("src", "./part-Red-x5.png");
+              img.setAttribute("src", "./img/part-Red-x5.png");
               msg.appendChild(img);
             }
 
             if (str.indexOf(":ORANGE") != -1) {
               var img = document.createElement("img");
               img.setAttribute("class", "textToIcon");
-              img.setAttribute("src", "./part-Orange-x5.png");
+              img.setAttribute("src", "./img/part-Orange-x5.png");
               msg.appendChild(img);
             }
 
             if (str.indexOf(":YELLOW") != -1) {
               var img = document.createElement("img");
               img.setAttribute("class", "textToIcon");
-              img.setAttribute("src", "./part-Yellow-x5.png");
+              img.setAttribute("src", "./img/part-Yellow-x5.png");
               msg.appendChild(img);
             }
 
             if (str.indexOf(":GREEN") != -1) {
               var img = document.createElement("img");
               img.setAttribute("class", "textToIcon");
-              img.setAttribute("src", "./part-Green-x5.png");
+              img.setAttribute("src", "./img/part-Green-x5.png");
               msg.appendChild(img);
             }
 
             if (str.indexOf(":JADE") != -1) {
               var img = document.createElement("img");
               img.setAttribute("class", "textToIcon");
-              img.setAttribute("src", "./part-Jade-x5.png");
+              img.setAttribute("src", "./img/part-Jade-x5.png");
               msg.appendChild(img);
             }
 
             if (str.indexOf(":EGGPLANT") != -1) {
               var img = document.createElement("img");
               img.setAttribute("class", "textToIcon");
-              img.setAttribute("src", "./part-Eggplant-x5.png");
+              img.setAttribute("src", "./img/part-Eggplant-x5.png");
               msg.appendChild(img);
             }
 
             if (str.indexOf(":BLUE") != -1) {
               var img = document.createElement("img");
               img.setAttribute("class", "textToIcon");
-              img.setAttribute("src", "./part-Blue-x5.png");
+              img.setAttribute("src", "./img/part-Blue-x5.png");
               msg.appendChild(img);
             }
 
