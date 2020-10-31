@@ -195,7 +195,7 @@ ws.onmessage = async function (msgEvent) {
       );
       document.write(`<title>Chat bot</title>`);
       document.write(
-        `<link rel="stylesheet" href="./bar-osu-v3.css?v=${Date.now()}"></head>`
+        `<link rel="stylesheet" href="./bar-BlackY-v3.css?v=${Date.now()}"></head>`
       );
       document.write(`<body></body>`);
 
