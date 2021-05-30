@@ -1,0 +1,294 @@
+<!--
+ * @Author: Cikepaokei
+ * @Date: 2021-05-30 15:26:36
+ * @LastEditTime: 2021-05-30 17:54:52
+ * @LastEditors: Cikepaokei
+ * @Description: In User Settings Edit
+ * @FilePath: \undefinedc:\Users\74703\Desktop\live\Test\Breathe\index.html
+-->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathe | Apple Watch 呼吸应用模拟</title>
+    <style>
+       :root {
+            --circle-diameter: 35vw;
+            --pulse-during: 5s;
+        }
+
+        html, body {
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+            animation: pulse var(--pulse-during) cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
+        }
+        .circle {
+            width: var(--circle-diameter);
+            height: var(--circle-diameter);
+            background-color: #fff;
+            position: absolute;
+            border-radius: 50%;
+            transform-origin: center;
+            /* transition: all 4s ease; */
+            /* transform: rotateZ(351deg)scale(2); */
+            opacity: 0.75;
+            mix-blend-mode: screen;
+        }
+
+        .circle-2 {
+            width: var(--circle-diameter);
+            height: var(--circle-diameter);
+            position: absolute;
+            border-radius: 50%;
+            transform-origin: left;
+            opacity: 0;
+            mix-blend-mode: screen;
+            animation: circle-hidden calc(var(--pulse-during)*2) cubic-bezier(0.17, 0.01, 0.58, 1) infinite;
+        }
+
+        .circle:nth-child(1) {
+            background-color: #30d887;
+        }
+
+        .circle:nth-child(2) {
+            background-color: #37e8cc;
+        }
+
+        .circle:nth-child(3) {
+            background-color: #39e7f1;
+        }
+
+        .circle:nth-child(4) {
+            background-color: #41faff;
+        }
+
+        .circle:nth-child(5) {
+            background-color: #40eab8;
+        }
+
+        .circle:nth-child(6) {
+            background-color: #55ff9e;
+        }
+
+        .circle-2:nth-child(1) {
+            background-color: #30d887;
+        }
+
+        .circle-2:nth-child(2) {
+            background-color: #37e8cc;
+        }
+
+        .circle-2:nth-child(3) {
+            background-color: #39e7f1;
+        }
+
+        .circle-2:nth-child(4) {
+            background-color: #41faff;
+        }
+
+        .circle-2:nth-child(5) {
+            background-color: #40eab8;
+        }
+
+        .circle-2:nth-child(6) {
+            background-color: #55ff9e;
+        }
+
+        .circle:nth-child(1) {
+           
+            animation: circle-1 var(--pulse-during) ease alternate infinite;
+        }
+
+        .circle:nth-child(2) {
+            animation: circle-2 var(--pulse-during) ease alternate infinite;
+        }
+
+        .circle:nth-child(3) {
+            animation: circle-3 var(--pulse-during) ease alternate infinite;
+        }
+
+        .circle:nth-child(4) {
+            animation: circle-4 var(--pulse-during) ease alternate infinite;
+        }
+
+        .circle:nth-child(5) {
+            animation: circle-5 var(--pulse-during) ease alternate infinite;
+        }
+
+        .circle:nth-child(6) {
+            animation: circle-6 var(--pulse-during) ease alternate infinite;
+        }
+
+        /* @keyframes circle-1 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/2), 0px)rotate(360deg);
+            transform-origin: left; }
+        }
+
+        @keyframes circle-2 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/2), 0px)rotate(300deg);
+                  transform-origin: left;}
+        }
+
+        @keyframes circle-3 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/2), 0px)rotate(240deg);
+                  transform-origin: left;}
+        }
+
+        @keyframes circle-4 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/2), 0px)rotate(180deg);
+                  transform-origin: left;}
+        }
+
+        @keyframes circle-5 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/2), 0px)rotate(120deg);
+                  transform-origin: left;}
+        }
+
+        @keyframes circle-6 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/2), 0px)rotate(60deg);
+                  transform-origin: left;}
+        } */
+
+        @keyframes circle-1 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/2), 0px)
+                  rotate(0deg);}
+        }
+
+        @keyframes circle-2 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/2/2), calc(var(--circle-diameter)/2/2*1.73))
+                  rotate(60deg);}
+        }
+
+        @keyframes circle-3 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/-2/2), calc(var(--circle-diameter)/2/2*1.73))
+                  rotate(120deg);}
+        }
+
+        @keyframes circle-4 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/-2), 0px)
+                  rotate(180deg);}
+        }
+
+        @keyframes circle-5 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/-2/2), calc(var(--circle-diameter)/-2/2*1.73))
+                  rotate(240deg);}
+        }
+
+        @keyframes circle-6 {
+            0%   {transform: translate(0, 0); }
+            100% {transform: translate(calc(var(--circle-diameter)/2/2), calc(var(--circle-diameter)/-2/2*1.73))
+                  rotate(300deg);}
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(.15) rotate(180deg);
+            }
+            5% {
+                transform: scale(.15) rotate(-180deg);
+            }
+            90% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes circle-hidden {
+            0% {
+                transform: scale(1);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+
+        @keyframes blank {
+            0%   {}
+            100% {}
+            
+        }
+
+        .info {
+            position: absolute;
+        }
+
+        .ui {
+            position: absolute;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="info">
+        <span class="author">By Cikepaokei</span>
+    </div>
+
+    <div class="ui">
+        <span>Breathe</span>
+    </div>
+
+    <div class="container">
+        <div class="circle">
+            <div class="circle-2"></div>
+        </div>
+        <div class="circle">
+            <div class="circle-2"></div>
+        </div>
+        <div class="circle">
+            <div class="circle-2"></div>
+        </div>
+        <div class="circle">
+            <div class="circle-2"></div>
+        </div>
+        <div class="circle">
+            <div class="circle-2"></div>
+        </div>
+        <div class="circle">
+            <div class="circle-2"></div>
+        </div>
+    </div>
+
+    <script>
+        if( window.screen.availWidth/window.screen.availHeight < 1) {
+            document.documentElement.style.setProperty('--circle-diameter', '35vw');
+        }else{
+            document.documentElement.style.setProperty('--circle-diameter', '30vh');
+        }
+    </script>
+</body>
+</html>
