@@ -1,7 +1,7 @@
 <!--
  * @Author: Cikepaokei
  * @Date: 2021-08-24 15:52:31
- * @LastEditTime: 2022-10-31 18:11:00
+ * @LastEditTime: 2022-10-31 21:20:00
  * @LastEditors: Cikepaokei
  * @Description: In User Settings Edit
  * @FilePath: \undefinedd:\Temp\git\cikepaokei.github.io\index.html
@@ -88,38 +88,38 @@
           heightRatio: 0.55,
         });
 
-		var elms = document.getElementsByClassName("splide");
+        var elms = document.getElementsByClassName("splide");
 
-      for (var i = 0; i < elms.length; i++) {
-        new Splide(elms[i]).mount();
-      }
-
-      // Collects LI elements:
-      var thumbnails = document.getElementsByClassName("thumbnail");
-	  var current;
-
-      for (var i = 0; i < thumbnails.length; i++) {
-        initThumbnail(thumbnails[i], i);
-      }
-
-      function initThumbnail(thumbnail, index) {
-        thumbnail.addEventListener("click", function () {
-          splide.go(index);
-        });
-      }
-
-      splide.on("mounted move", function () {
-        var thumbnail = thumbnails[splide.index];
-
-        if (thumbnail) {
-          if (current) {
-            current.classList.remove("is-active");
-          }
-
-          thumbnail.classList.add("is-active");
-          current = thumbnail;
+        for (var i = 0; i < elms.length; i++) {
+          new Splide(elms[i]).mount();
         }
-      });
+
+        // Collects LI elements:
+        var thumbnails = document.getElementsByClassName("thumbnail");
+        var current;
+
+        for (var i = 0; i < thumbnails.length; i++) {
+          initThumbnail(thumbnails[i], i);
+        }
+
+        function initThumbnail(thumbnail, index) {
+          thumbnail.addEventListener("click", function () {
+            splide.go(index);
+          });
+        }
+
+        splide.on("mounted move", function () {
+          var thumbnail = thumbnails[splide.index];
+
+          if (thumbnail) {
+            if (current) {
+              current.classList.remove("is-active");
+            }
+
+            thumbnail.classList.add("is-active");
+            current = thumbnail;
+          }
+        });
 
         splide.mount();
       });
@@ -160,7 +160,12 @@
           <ul class="splide__list">
             <li class="splide__slide">
               <div class="splide__slide__container">
-                <img src="upload/B_01.jpg" />
+                <img src="upload/B_00.jpg" />
+              </div>
+            </li>
+            <li class="splide__slide">
+              <div class="splide__slide__container">
+                <img src="upload/B_03.jpg" />
               </div>
             </li>
             <li class="splide__slide">
@@ -170,7 +175,7 @@
             </li>
             <li class="splide__slide">
               <div class="splide__slide__container">
-                <img src="upload/B_03.jpg" />
+                <img src="upload/B_01.jpg" />
               </div>
             </li>
           </ul>
@@ -178,21 +183,25 @@
       </section>
 
       <ul id="thumbnails" class="thumbnails">
+		<li class="thumbnail">
+			<img src="upload/B_00.jpg" alt="B_00" />
+		  </li>
         <li class="thumbnail">
-          <img src="upload/B_01.jpg" alt="B_01" />
+          <img src="upload/B_03.jpg" alt="B_03" />
         </li>
         <li class="thumbnail">
           <img src="upload/B_02.jpg" alt="B_02" />
         </li>
         <li class="thumbnail">
-          <img src="upload/B_03.jpg" alt="B_03" />
+          <img src="upload/B_01.jpg" alt="B_01" />
         </li>
       </ul>
     </div>
     <div class="img-contain" style="margin-top: 1em">
-      <img src="upload/B_01.jpg" alt="B_01" class="gallery-grid-item" />
+	  <img src="upload/B_00.jpg" alt="B_00" class="gallery-grid-item" />
+      <img src="upload/B_03.jpg" alt="B_01" class="gallery-grid-item" />
       <img src="upload/B_02.jpg" alt="B_02" class="gallery-grid-item" />
-      <img src="upload/B_03.jpg" alt="B_03" class="gallery-grid-item" />
+      <img src="upload/B_01.jpg" alt="B_03" class="gallery-grid-item" />
       <!-- <img src="upload/gnar_06.jpg" alt="Gnar_06" class="gallery-grid-item">
 		<img src="upload/gnar_07.jpg" alt="Gnar_07" class="gallery-grid-item">
 		<img src="upload/gnar_08.jpg" alt="Gnar_08" class="gallery-grid-item">
