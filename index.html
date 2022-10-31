@@ -1,41 +1,202 @@
 <!--
  * @Author: Cikepaokei
  * @Date: 2021-08-24 15:52:31
- * @LastEditTime: 2021-08-24 16:10:15
+ * @LastEditTime: 2022-10-31 18:11:00
  * @LastEditors: Cikepaokei
  * @Description: In User Settings Edit
- * @FilePath: \cikepaokei.github.io\index.html
+ * @FilePath: \undefinedd:\Temp\git\cikepaokei.github.io\index.html
 -->
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="theme-color" content="#333">
-	<title>My world</title>
-	<style>
-		html,body {
-			margin: .2em;
-			padding: 0;
-		}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fredoka+One&family=Manjari&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Splide | Link to the CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/js/splide.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/css/splide.min.css"
+    />
+    <title>Cikepaokei's World</title>
+    <style>
+      html,
+      body {
+        margin: 0.2em;
+        padding: 0;
+        background: #111;
+        color: #eee;
+      }
 
-		.gallery-grid-item {
-			width: 200px;
-			max-width: 100%;
-			height: auto;
-		}
-	</style>
-</head>
-<body>
+      h1 {
+        font-family: "Fredoka One", cursive;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid #ddd;
+        font-family: "Manjari", sans-serif;
+      }
+
+      .gallery-grid-item {
+        width: 200px;
+        max-width: 100%;
+        height: auto;
+      }
+
+      .banner img {
+        width: 100%;
+      }
+
+      .thumbnails {
+        display: flex;
+        margin: 1rem auto 0;
+        padding: 0;
+        justify-content: center;
+      }
+
+      .thumbnail {
+        width: 70px;
+        height: 70px;
+        overflow: hidden;
+        list-style: none;
+        margin: 0 0.2rem;
+        cursor: pointer;
+      }
+
+      .thumbnail img {
+        width: 100%;
+        height: auto;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var splide = new Splide(".splide", {
+          type: "fade",
+          interval: 10000,
+          perPage: 1,
+          autoplay: true,
+          speed: 3000,
+          rewind: true,
+          easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+          heightRatio: 0.55,
+        });
+
+		var elms = document.getElementsByClassName("splide");
+
+      for (var i = 0; i < elms.length; i++) {
+        new Splide(elms[i]).mount();
+      }
+
+      // Collects LI elements:
+      var thumbnails = document.getElementsByClassName("thumbnail");
+	  var current;
+
+      for (var i = 0; i < thumbnails.length; i++) {
+        initThumbnail(thumbnails[i], i);
+      }
+
+      function initThumbnail(thumbnail, index) {
+        thumbnail.addEventListener("click", function () {
+          splide.go(index);
+        });
+      }
+
+      splide.on("mounted move", function () {
+        var thumbnail = thumbnails[splide.index];
+
+        if (thumbnail) {
+          if (current) {
+            current.classList.remove("is-active");
+          }
+
+          thumbnail.classList.add("is-active");
+          current = thumbnail;
+        }
+      });
+
+        splide.mount();
+      });
+    </script>
+  </head>
+  <body>
+    <h1 style="color: #6a6a6a">Cikepaokei's World</h1>
+    <!-- <table>
+		<thead>
+			<tr>
+				<td>Salads</td>
+				<td>Soups</td>
+				<td>Main Dishes</td>
+				<td>Side Dishes</td>
+				<td>Vegetables</td>
+				<td>Desserts</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Ceaser's Salad</td>
+				<td>Chiken Soup</td>
+				<td>BBQ Chicken</td>
+				<td>Baked Beans</td>
+				<td>Brocoli</td>
+				<td>Apple Crisp</td>
+			</tr>
+		</tbody>
+	</table>
 	<ul>
 		<li><a href="upload/gnar_05.jpg">Gnar</a></li>
-	</ul>
-	<div class="img-contain">
-		<img src="upload/gnar_06.jpg" alt="Gnar_06" class="gallery-grid-item">
+	</ul> -->
+    <div class="banner">
+      <section class="splide" aria-labelledby="carousel-heading">
+        <!-- <h2 id="carousel-heading"></h2> -->
+
+        <div class="splide__track">
+          <ul class="splide__list">
+            <li class="splide__slide">
+              <div class="splide__slide__container">
+                <img src="upload/B_01.jpg" />
+              </div>
+            </li>
+            <li class="splide__slide">
+              <div class="splide__slide__container">
+                <img src="upload/B_02.jpg" />
+              </div>
+            </li>
+            <li class="splide__slide">
+              <div class="splide__slide__container">
+                <img src="upload/B_03.jpg" />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <ul id="thumbnails" class="thumbnails">
+        <li class="thumbnail">
+          <img src="upload/B_01.jpg" alt="B_01" />
+        </li>
+        <li class="thumbnail">
+          <img src="upload/B_02.jpg" alt="B_02" />
+        </li>
+        <li class="thumbnail">
+          <img src="upload/B_03.jpg" alt="B_03" />
+        </li>
+      </ul>
+    </div>
+    <div class="img-contain" style="margin-top: 1em">
+      <img src="upload/B_01.jpg" alt="B_01" class="gallery-grid-item" />
+      <img src="upload/B_02.jpg" alt="B_02" class="gallery-grid-item" />
+      <img src="upload/B_03.jpg" alt="B_03" class="gallery-grid-item" />
+      <!-- <img src="upload/gnar_06.jpg" alt="Gnar_06" class="gallery-grid-item">
 		<img src="upload/gnar_07.jpg" alt="Gnar_07" class="gallery-grid-item">
 		<img src="upload/gnar_08.jpg" alt="Gnar_08" class="gallery-grid-item">
-		<img src="upload/gnar_09.jpg" alt="Gnar_09" class="gallery-grid-item">
-	</div>
-</body>
+		<img src="upload/gnar_09.jpg" alt="Gnar_09" class="gallery-grid-item"> -->
+    </div>
+  </body>
 </html>
