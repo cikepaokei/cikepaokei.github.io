@@ -1,10 +1,10 @@
 /*
  * @Author: Cikepaokei
  * @Date: 2020-05-15 20:06:16
- * @LastEditTime: 2022-12-22 18:00:00
+ * @LastEditTime: 2022-08-21 01:48:22
  * @LastEditors: Cikepaokei
  * @Description: In User Settings Edit
- * @FilePath: \live\live - 220919.js
+ * @FilePath: \live\live - 220621.js
  */
 
 class ChatbotDanmu {
