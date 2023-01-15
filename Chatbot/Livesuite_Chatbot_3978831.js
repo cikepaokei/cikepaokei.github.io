@@ -1388,7 +1388,7 @@ const decode = function(blob){
 }
 
 const ws = new WebSocket('wss://broadcastlv.chat.bilibili.com:2245/sub');
-const roomid = 1569975;
+const roomid = 3978831;
 
 ws.onopen = function () {
   ws.send(encode(JSON.stringify({
