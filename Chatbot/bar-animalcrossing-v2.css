@@ -1225,7 +1225,7 @@ span.chatbot-bar-icon {
   font-family: "GEETYPE-CuYuanGBT-Flash", "M PLUS Rounded 1c", "Fredoka One",
     "Microsoft YaHei", "sans-serif";
   transform: rotateY(358deg);
-  perspective: 200px;
+  /* perspective: 200px; */
 }
 
 @keyframes margin-left-in {
@@ -1301,6 +1301,7 @@ span.chatbot-bar-icon {
   float: left;
   /* overflow: hidden; */
   padding: 5px 8px;
+  margin-bottom: 0.1em;
 }
 
 .visitor-queue-display-profile {
@@ -1673,7 +1674,7 @@ div#cb-app-debug_display {
 
 .bar-round {
   width: 100%;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.2em;
   float: left;
   font-family: "GEETYPE-CuYuanGBT-Flash", "M PLUS Rounded 1c", "Fredoka One",
     "Microsoft YaHei", "sans-serif";
