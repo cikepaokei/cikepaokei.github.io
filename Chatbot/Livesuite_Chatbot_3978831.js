@@ -2826,7 +2826,7 @@ ws.onmessage = async function (msgEvent) {
             }
             break;
           case "LIKE_INFO_V3_CLICK":
-            if (ChatbotDanmu.getLikeNoticeDisplay == true) {
+            if (ChatbotDanmu.isShowLikeNotice) {
               var like_uname = body.data.uname;
               body.data.like_text;
               body.data.like_icon;
