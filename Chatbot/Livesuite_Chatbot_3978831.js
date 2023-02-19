@@ -1128,13 +1128,15 @@ class ChatbotDanmu {
   // 随机生成十六进制配色方案
   getRandomColourSchemes() {
     var colour = [
-      ["#00A54A", "#d2d3d2"],
+      ["#75DE5E", "#278444"],
       ["#FFDF4A", "#9d1200"],
-      ["#26b9b3", "#e0e7ed"],
+      ["#00D1BC", "#e0e7ed"],
       ["#a22b10", "#e0be6c"],
       ["#5663D3", "#d2d3d2"],
       ["#d57c2a", "#82000a"],
       ["#ef3e79", "#ffffff"],
+      ["#5FD5FB", "#DEF4F7"],
+      ["#A26BCF", "#EEE5F0"]
     ];
     var value;
     var min = Math.ceil(0); // 数组的最小索引
@@ -1450,7 +1452,13 @@ class ChatbotDanmu {
   }
 
   setProfilePhotoBackgroundColor(colorcode) {
-    this.profilephoto.style.backgroundColor = colorcode;
+    if (ChatbotDanmu.username_bgcolour_map.has(this.username_text.textContent) != 1) {
+      ChatbotDanmu.username_bgcolour_map.set(this.username_text.textContent, colour);
+      this.profilephoto.style.backgroundColor = colour;
+      return colour;
+    } else {
+      this.profilephoto.style.backgroundColor = ChatbotDanmu.username_bgcolour_map.get(this.username_text.textContent);
+    }
 
   }
 
