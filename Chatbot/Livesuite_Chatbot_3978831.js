@@ -868,6 +868,20 @@ class ChatbotDanmu {
 
     return (this.danmu = visitor);
   }
+  
+  // 创建 造访者弹幕信息 V4, 增加需要给用户名，以查找并赋予用户静态颜色
+  createVisitorDanmuV4(imgsrc, username) {
+    var visitor_style_class = "visitor-queue-display-profile"; // 造访者弹幕样式
+    var visitor = document.createElement("img");
+
+    visitor.setAttribute("class", visitor_style_class);
+    visitor.setAttribute("src", imgsrc);
+    this.profilephoto = visitor;
+
+    this.username_text = username;
+
+    return (this.danmu = visitor);
+  }
 
   // 创建 获得成就弹幕
   createAchievementDanmu() {
@@ -1451,7 +1465,7 @@ class ChatbotDanmu {
 
   }
 
-  setProfilePhotoBackgroundColor(colorcode) {
+  setProfilePhotoBackgroundColor(colour) {
     if (ChatbotDanmu.username_bgcolour_map.has(this.username_text.textContent) != 1) {
       ChatbotDanmu.username_bgcolour_map.set(this.username_text.textContent, colour);
       this.profilephoto.style.backgroundColor = colour;
@@ -2744,8 +2758,9 @@ ws.onmessage = async function (msgEvent) {
                     let username = body.data.uname;
                     let profilephoto = body.data.uid;
                 
-                    danmu.createVisitorDanmuV3(
-                      "./img/Animal_Crossing_Leaf_White_01.png"
+                    danmu.createVisitorDanmuV4(
+                      "./img/Animal_Crossing_Leaf_White_01.png", 
+                      username
                     );
                     var randomColour = danmu.getRandomColour2();
                     danmu.setProfilePhotoBackgroundColor(randomColour);
