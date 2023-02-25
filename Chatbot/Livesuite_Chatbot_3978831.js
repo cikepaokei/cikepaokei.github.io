@@ -682,6 +682,7 @@ class ChatbotDanmu {
   static _isShowShare = true;
   static _isShowSuperchat = true;
   static _isShowEntry = true;
+  static isShowUserface = true;
   
 
   static get isShowFollow() {
@@ -868,7 +869,7 @@ class ChatbotDanmu {
 
     return (this.danmu = visitor);
   }
-  
+
   // 创建 造访者弹幕信息 V4, 增加需要给用户名，以查找并赋予用户静态颜色
   createVisitorDanmuV4(imgsrc, username) {
     var visitor_style_class = "visitor-queue-display-profile"; // 造访者弹幕样式
@@ -878,7 +879,7 @@ class ChatbotDanmu {
     visitor.setAttribute("src", imgsrc);
     this.profilephoto = visitor;
 
-    this.username_text = username;
+    this.username_text = document.createTextNode(username);
 
     return (this.danmu = visitor);
   }
@@ -1152,6 +1153,22 @@ class ChatbotDanmu {
       ["#5FD5FB", "#DEF4F7"],
       ["#A26BCF", "#EEE5F0"]
     ];
+    // var colour = [
+    //   ["#00A54A", "#d2d3d2"],
+    //   ["#FFDF4A", "#9d1200"],
+    //   ["#00D1BC", "#e0e7ed"],
+    //   ["#a22b10", "#e0be6c"],
+    //   ["#5663D3", "#d2d3d2"],
+    //   ["#d57c2a", "#82000a"],
+    //   ["#ef3e79", "#ffffff"],
+    //   ["#767D3A", "#E5E7B0"],
+    //   ["#A26BCF", "#EEE5F0"],
+    //   ["#FEFA8E", "#F1AF42"],
+    //   ["#75DE5E", "#278444"],
+    //   ["#5FD5FB", "#DEF4F7"],
+    //   ["#FFFFFF", "#9F9F9F"],
+    //   ["#D65B5A", "#F6E7D8"]
+    // ];
     var value;
     var min = Math.ceil(0); // 数组的最小索引
     var max = Math.floor(colour.length); // 数组的最大索引，不含最大值所以加一
@@ -1170,7 +1187,7 @@ class ChatbotDanmu {
 
   // 设置 用户名字颜色（记录用户名字、随机颜色代码。以分配固定颜色）
   setStaticUsernameColour(colour) {
-    if (ChatbotDanmu.username_colour_map.has(this.username_text.textContent) != 1) {
+    if (!ChatbotDanmu.username_colour_map.has(this.username_text.textContent)) {
       ChatbotDanmu.username_colour_map.set(this.username_text.textContent, colour);
       this.username.style.color = colour;
       return colour;
@@ -1182,7 +1199,7 @@ class ChatbotDanmu {
 
   // 设置 用户名字背景颜色（记录用户名字、随机颜色代码。以分配固定颜色）
   setStaticUsernameBackgroundColour(colour) {
-    if (ChatbotDanmu.username_bgcolour_map.has(this.username_text.textContent) != 1) {
+    if (!ChatbotDanmu.username_bgcolour_map.has(this.username_text.textContent)) {
       ChatbotDanmu.username_bgcolour_map.set(this.username_text.textContent, colour);
       this.username.style.backgroundColor = colour;
       return colour;
@@ -1466,7 +1483,7 @@ class ChatbotDanmu {
   }
 
   setProfilePhotoBackgroundColor(colour) {
-    if (ChatbotDanmu.username_bgcolour_map.has(this.username_text.textContent) != 1) {
+    if (!ChatbotDanmu.username_bgcolour_map.has(this.username_text.textContent)) {
       ChatbotDanmu.username_bgcolour_map.set(this.username_text.textContent, colour);
       this.profilephoto.style.backgroundColor = colour;
       return colour;
@@ -1530,8 +1547,8 @@ class ChatbotDanmu {
 class ChatbotDebug {
   static logTable = [];
   static isDisplayLog = true;
-  // static debugMode = false;
-  static debugMode = true;
+  static debugMode = false;
+  // static debugMode = true;
 
 
 
@@ -1539,6 +1556,15 @@ class ChatbotDebug {
 
   // 记录日志
   static log(log) {
+    if (ChatbotDebug.debugMode == true) {
+      // let time = new Date(Date.now()).toJSON();
+      let date = new Date();
+      let time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
+      log = `${time} ${log}`;
+      ChatbotDebug.logTable.push(log);
+      console.log(log);
+    }
   }
 
   static display(log) {
@@ -1756,8 +1782,48 @@ class ChatbotUtil {
     return time;
   }
 
+  static getWeekday() {
+    let date = new Date();
+    var weekday = new Array(7);
+    weekday[0]= "日";
+    weekday[1]= "一";
+    weekday[2]= "二";
+    weekday[3]= "三";
+    weekday[4]= "四";
+    weekday[5]= "五";
+    weekday[6]= "六";
+
+    return weekday[date.getDay()];
+  }
+
+  static getHours12() { 
+    let date = new Date();
+    let h, m;
+    h = (date.getHours() + 24) % 12 || 12; 
+    if (date.getMinutes() < 10) {
+      m = `0${date.getMinutes()}`;
+    } else {
+      m = date.getMinutes();
+    }
+    return `${h}:${m}`;
+  }
+
+  static getDaynight() {
+    let date = new Date();
+    if (date.getHours() < 12) {
+      return "AM";
+    }else { return "PM"; }
+  }
+
   static getTimestamp() {
     return Date.now();
+  }
+
+  static getDate() {
+    let date = new Date();
+    let m = date.getMonth() + 1;
+    let d = date.getDate();
+    return `${m}月${d}日`;
   }
 
   // 【不可用】定时销毁
@@ -2092,8 +2158,94 @@ class ChatbotRoundDanmu {
  */
 
 window.ChatbotDanmu = ChatbotDanmu;
-window.ChatbotRoundDanmu = ChatbotRoundDanmu;
+window.ChatbotDebug = ChatbotDebug;
+window.ChatbotData = ChatbotData;
+window.ChatbotUtil = ChatbotUtil;
 
+
+class ChatbotClock {
+  appframe_clock;
+  static appframe_clock_id = "cb-app-clock";
+
+  gui = {
+    clock: {},
+    top: {},
+    middle: {},
+    bottom: {},
+    time: {},
+    daynight: {},
+    line: {}, 
+    date: {}, 
+    day: {}
+  };
+  style = {
+    clock: "app-clock",
+    top: "app-clock-top",
+    middle: "app-clock-middle",
+    bottom: "app-clock-bottom",
+    time: "app-clock-top-time",
+    daynight: "app-clock-top-daynight",
+    line: "app-clock-middle-line", 
+    date: "app-clock-bottom-date", 
+    day: "app-clock-bottom-day"
+  };
+  
+  constructor() {
+    let gui = this.gui;
+
+    for (const key in gui) {
+      gui[key] = document.createElement("div");
+      gui[key].className = this.style[key];
+    }
+    
+    gui.clock.appendChild(gui.top);
+    gui.clock.appendChild(gui.middle);
+    gui.clock.appendChild(gui.bottom);
+    gui.top.appendChild(gui.time);
+    gui.top.appendChild(gui.daynight);
+    gui.middle.appendChild(gui.line);
+    gui.bottom.appendChild(gui.date);
+    gui.bottom.appendChild(gui.day);
+
+    this.appframe_clock = document.getElementById(ChatbotClock.appframe_clock_id);
+    this.appframe_clock.appendChild(gui.clock);
+
+    // gui.time.innerHTML = "9:48";
+    // gui.daynight.innerHTML = "AM";
+    // gui.date.innerHTML = "Feb 24";
+    // gui.day.innerHTML = "Fri.";
+    this.setTime({
+      time: ChatbotUtil.getHours12(), 
+      daynight: ChatbotUtil.getDaynight(), 
+      date: ChatbotUtil.getDate(), 
+      week: ChatbotUtil.getWeekday()
+    });
+  }
+
+  setTime(data) {
+    this.gui.time.innerHTML = "--:--";
+    this.gui.daynight.innerHTML = "AM";
+    this.gui.date.innerHTML = "N/A";
+    this.gui.day.innerHTML = "-";
+
+    if ("time" in data) {
+      document.createTextNode(data["time"]);
+      this.gui.time.innerHTML = data["time"];
+    }
+    if ("daynight" in data) {
+      document.createTextNode(data["daynight"]);
+      this.gui.daynight.innerHTML = data["daynight"];
+    }
+    if ("date" in data) {
+      document.createTextNode(data["date"]);
+      this.gui.date.innerHTML = data["date"];
+    }
+    if ("week" in data) {
+      document.createTextNode(data["week"]);
+      this.gui.day.innerHTML = data["week"];
+    }
+  }
+}
 
 
 const textEncoder = new TextEncoder("utf-8");
@@ -2141,68 +2293,36 @@ const decode = function (blob) {
           let headerLen = 16; // readInt(buffer,offset + 4,4)
           let data = buffer.slice(offset + headerLen, offset + packetLen);
 
-          let body = textDecoder.decode(pako.inflate(data));
-          let indexArrayC = [];
-          let indexArrayD = [];
-          let indexArrayE = [];
-
-          // 分割 JSON 消息 获得 “{”和“}”的序列和索引
-          for (let i = 0; i < body.length; i++) {
-            if (body.charAt(i) == "{") {
-              indexArrayC.push(0);
-              indexArrayD.push(i);
-            }
-
-            if (body.charAt(i) == "}") {
-              indexArrayC.push(1);
-              indexArrayD.push(i + 1);
-            }
+          let body = '';
+          try {
+              // pako可能无法解压
+              body = textDecoder.decode(pako.inflate(data));
           }
-
-          // 找出 各个消息的开头和结尾索引
-          let count_0 = 0;
-          let count_1 = 0;
-          let before = 1;
-          for (let i = 0; i < indexArrayC.length; i++) {
-            if (indexArrayC[i] == 0) {
-              if (before == 1) {
-                if (count_0 == count_1) {
-                  indexArrayE.push(indexArrayD[i]);
-                }
-              }
-              count_0 += 1;
-
-              before = 0;
-            }
-
-            if (indexArrayC[i] == 1) {
-              count_1 += 1;
-              if (i == indexArrayC.length - 1) {
-                if (count_0 == count_1) {
-                  indexArrayE.push(indexArrayD[i]);
-                  count_0 = count_1 = 0;
-                }
-              } else {
-                if (indexArrayC[i + 1] == 0) {
-                  if (count_0 == count_1) {
-                    indexArrayE.push(indexArrayD[i]);
-                    count_0 = count_1 = 0;
-                  }
-                }
-              }
-              before = 1;
-            }
-          }
-
-          var jsonArray = [];
-          for (let i = 0; i < indexArrayE.length; i += 2) {
-            jsonArray.push(body.substring(indexArrayE[i], indexArrayE[i + 1]));
+          catch (e){
+             body = textDecoder.decode(data);
           }
 
           if (body) {
-            for (let i = 0; i < jsonArray.length; i++) {
-              result.body.push(JSON.parse(jsonArray[i].toString()));
-            }
+              // 同一条 message 中可能存在多条信息，用正则筛出来
+              const group = body.split(/[\x00-\x1f]+/);
+              group.forEach(item => {
+                try {
+                  const parsedItem = JSON.parse(item);
+                  if (typeof parsedItem === 'object') {
+                      result.body.push(parsedItem);
+                  } else {
+                      // 这里item可能会解析出number
+                      // 此时可以尝试重新用pako解压data（携带转换参数）
+                      // const newBody = textDecoder.decode(pako.inflate(data, {to: 'String'}))
+                      // 重复上面的逻辑，筛选可能存在的多条信息
+                      // 初步验证，这里可以解析到INTERACT_WORD、DANMU_MSG、ONLINE_RANK_COUNT
+                      // SEND_GIFT、SUPER_CHAT_MESSAGE
+                  }
+                }
+                catch(e) {
+                  // 忽略非 JSON 字符串，通常情况下为分隔符
+                }
+              });
           }
 
           offset += packetLen;
@@ -2219,7 +2339,7 @@ const decode = function (blob) {
 };
 
 const ws = new WebSocket("wss://broadcastlv.chat.bilibili.com:2245/sub");
-// const roomid = 407149;
+// const roomid = 13036468;
 const roomid = 3978831;
 
 ws.onopen = function () {
@@ -2309,6 +2429,9 @@ ws.onmessage = async function (msgEvent) {
         "id",
         ChatbotDanmu.appframe_debug_display_id
       );
+      if (ChatbotDebug.debugMode) {
+        app_debug_display.style.display = "block";
+      }
       app.appendChild(app_debug_display);
 
       // 添加Chat bot应用(弹幕点歌应用)
@@ -2350,6 +2473,14 @@ ws.onmessage = async function (msgEvent) {
       app_gift_display.setAttribute("id", ChatbotDanmu.appframe_giftdisplay_id);
       app.appendChild(app_gift_display);
 
+      // 添加Chat bot应用(时钟应用)
+      var app_clock = document.createElement("div");
+      app_clock.setAttribute(
+        "id",
+        ChatbotClock.appframe_clock_id
+      );
+      app.appendChild(app_clock);
+
       //添加Chat bot应用(点赞显示应用)
       var app_like_display = document.createElement("div");
       app_like_display.setAttribute("id", ChatbotDanmu.appframe_likedisplay_id);
@@ -2375,6 +2506,9 @@ ws.onmessage = async function (msgEvent) {
       audio.setAttribute("id", "sfx");
       audio.setAttribute("src", "#");
       audio.setAttribute("autoplay", "autoplay");
+      if (ChatbotDebug.debugMode) {
+        audio.setAttribute("controls", "controls");
+      }
       // audio.addEventListener('timeupdate', (event) => {
       //   cloudmusic.setArtist(`${audio.currentTime.toFixed(0)} / ${audio.duration.toFixed(0)}`);
       //   cloudmusic.updateGUI();
@@ -2385,7 +2519,7 @@ ws.onmessage = async function (msgEvent) {
       // 添加一条系统通知 用系统通知方法
       var system_message_new = new ChatbotDanmu();
       system_message_new.createSystemDanmu(
-        "当前版本: V20230212 | Dev: Cikepaokei"
+        "当前版本: V20230225 | Dev: Cikepaokei"
       );
       // system_message_new.setHashids();  // 不带标识的Hashid
       system_message_new.setHashidsWithName("sysmsg"); // 设置带标识的Hashid
@@ -2399,6 +2533,80 @@ ws.onmessage = async function (msgEvent) {
       system_message_roomid.setHashidsWithName("sysmsg"); // 设置带标识的Hashid
       system_message_roomid.addDanmu(mainpage); // 添加弹幕到指定应用池
       system_message_roomid.destoryDanmu(8400); // 执行销毁弹幕，在8400ms后
+
+      if (ChatbotDebug.debugMode) {
+        let visitorStatus, giftStatus,
+            likeStatus, autoDestoryStatus,
+            silenceDetectStatus, followStatus,
+            shareStatus, superchatStatus, entryStatus;
+        if (ChatbotDanmu.isShowVisitorDanmu) {
+          visitorStatus = "访客显示：🟢";
+        } else {
+          visitorStatus = "访客显示：🔴";
+        }
+        if (ChatbotDanmu.isShowGiftDanmu) {
+          giftStatus = "礼物显示：🟢";
+        } else {
+          giftStatus = "礼物显示：🔴";
+        }
+        if (ChatbotDanmu.isShowLikeNotice) {
+          likeStatus = "点赞显示：🟢";
+        } else {
+          likeStatus = "点赞显示：🔴";
+        }
+        if (ChatbotDanmu.toggleAutoDestory) {
+          autoDestoryStatus = "弹幕自动销毁：🟢";
+        } else {
+          autoDestoryStatus = "弹幕自动销毁：🔴";
+        }
+        {
+          silenceDetectStatus = "静默音乐：🔴";
+        }
+        if (ChatbotDanmu.isShowFollow) {
+          followStatus = "关注提示：🟢";
+        } else {
+          followStatus = "关注提示：🔴";
+        }
+        if (ChatbotDanmu.isShowShare) {
+          shareStatus = "分享提示：🟢";
+        } else {
+          shareStatus = "分享提示：🔴";
+        }
+        if (ChatbotDanmu.isShowSuperchat) {
+          superchatStatus = "醒目留言：🟢";
+        } else {
+          superchatStatus = "醒目留言：🔴";
+        }
+        if (ChatbotDanmu.isShowEntry) {
+          entryStatus = "舰长或榜前进入提醒：🟢";
+        } else {
+          entryStatus = "舰长或榜前进入提醒：🔴";
+        }
+
+        let danmu = new ChatbotRoundDanmu();
+        danmu.create({
+          username: "Username",
+          message: "Message"
+        });
+        danmu.destory(8400);
+
+        let danmu2 = new ChatbotRoundDanmu();
+        danmu2.createList({
+          title: "状态", 
+          content: [
+            visitorStatus, 
+            giftStatus,
+            likeStatus, 
+            autoDestoryStatus, 
+            silenceDetectStatus, 
+            followStatus, 
+            shareStatus, 
+            superchatStatus, 
+            entryStatus
+          ]
+        });
+        // danmu2.destory(8400);
+      }
 
 
       // 启动 AJAX请求计数定时清空 计时器
@@ -2415,21 +2623,23 @@ ws.onmessage = async function (msgEvent) {
           }
         }
       }, 1000);
+
+      if (ChatbotDebug.debugMode) {
+        var danmu_rate_counter_oldcount = 0;
+        setInterval(function () {
+          let oldCount = danmu_rate_counter_oldcount;
+          let newCount = ChatbotDanmu.count;
+  
+          let rate = newCount - oldCount;
+          ChatbotDebug.display(`总消息速率：${rate.toFixed(0)}条/5s | 总消息数：${newCount}`);
+          danmu_rate_counter_oldcount = newCount;
+        }, 5000);
+      } 
       document.getElementById(
         ChatbotDanmu.appframe_cloudmusicplayer_id
       );
-      // let musicList = ChatbotData.RandomCloudmusicIDList;
-      // let musicList = ChatbotCloudMusicData.myFavoritePlaylist;
-      let musicList = "";
-      // fetch("./ChatbotCloudMusicData.json")
-      fetch("./RB_Playlist.json")
-        .then((response) => response.json())
-        .then((json) => { 
-          musicList = json;
-          // musicList = musicList.result.tracks;
-          musicList = musicList.playlist.tracks;
-        })
-        .catch((err) => "Request Failed" + err);
+      // // 自定义歌单
+      ChatbotData.RandomCloudmusicIDList;
 
       // 静默检测，超时后播放音乐
       setInterval(function () {
@@ -2444,7 +2654,15 @@ ws.onmessage = async function (msgEvent) {
       }, 1000);
 
 
-      
+      var app_clock_instance = new ChatbotClock();
+      setInterval(function () {
+        app_clock_instance.setTime({
+          time: ChatbotUtil.getHours12(), 
+          daynight: ChatbotUtil.getDaynight(), 
+          date: ChatbotUtil.getDate(), 
+          week: ChatbotUtil.getWeekday()
+        });
+      }, 1000);
       
 
       break;
@@ -2513,46 +2731,46 @@ ws.onmessage = async function (msgEvent) {
             // 获取并设置 用户头像
             // 如果 【用户头像表】存在此用户，设置用户头像
             // 如果，不存在，从API通过UID获取用户头像，并设置用户头像和记录到【用户头像表】
-            if (ChatbotDanmu.getProfilephotoSrcByUsername(username) != false) {
-              danmu.setProfilePhoto(
-                ChatbotDanmu.getProfilephotoSrcByUsername(username)
-              );
-            } else {
-              let ajaxurl = `https://tenapi.cn/v2/biliinfo?uid=${profilephoto}`;
-              if (ChatbotUtil.ajaxLocker == false) {
-                ChatbotUtil.doAjaxGetRL(ajaxurl).then(
-                  (response) => {
-                    let data = JSON.parse(response);
-                    if (data.code == 200) {
-                      let profilePhoto = data.data.avatar;
-                      if (profilePhoto != null) {
-                        ChatbotDanmu.updateProfilephotoSrcByUsername(
-                          username,
-                          profilePhoto
-                        );
-                        danmu.setProfilePhoto(profilePhoto);
-                      }
-                    } else if (data.code == 201) {
-                      if (ChatbotUtil.isAjaxLocked == false) {
-                        ChatbotUtil.ajaxLock();
-
-                        let log = `${ChatbotUtil.getTime()} API获取失败，请求已锁定`;
-                        log =
-                          log +
-                          ` | 解锁时间：${new Date(
-                            ChatbotUtil.ajaxUnlockTime
-                          ).toLocaleString()}`;
-                        ChatbotDebug.display(log);
-                        console.log(log);
-                      }
-                    }
-                  },
-                  (Error) => {
-                    console.log(Error);
-                  }
+            if (ChatbotDanmu.isShowUserface) {
+              if (ChatbotDanmu.getProfilephotoSrcByUsername(username) != false) {
+                danmu.setProfilePhoto(
+                  ChatbotDanmu.getProfilephotoSrcByUsername(username)
                 );
+              } else {
+                let ajaxurl = `https://tenapi.cn/v2/biliinfo?uid=${profilephoto}`;
+                if (ChatbotUtil.ajaxLocker == false) {
+                  ChatbotUtil.doAjaxGetRL(ajaxurl).then(
+                    (response) => {
+                      let data = JSON.parse(response);
+                      if (data.code == 200) {
+                        let profilePhoto = data.data.avatar;
+                        if (profilePhoto != null) {
+                          ChatbotDanmu.updateProfilephotoSrcByUsername(
+                            username,
+                            profilePhoto
+                          );
+                          danmu.setProfilePhoto(profilePhoto);
+                        }
+                      } else if (data.code == 201) {
+                        if (ChatbotUtil.isAjaxLocked == false) {
+                          ChatbotUtil.ajaxLock();
+  
+                          let log = `${ChatbotUtil.getTime()} API获取失败，请求已锁定`;
+                          log += ` | 解锁时间：${new Date(
+                              ChatbotUtil.ajaxUnlockTime
+                            ).toLocaleString()}`;
+                          ChatbotDebug.display(log);
+                          console.log(log);
+                        }
+                      }
+                    },
+                    (Error) => {
+                      console.log(Error);
+                    }
+                  );
+                }
               }
-            }
+            }           
 
             var randomColour = danmu.getRandomColourSchemes();
             var randomLightColour = randomColour[0];
@@ -2663,6 +2881,8 @@ ws.onmessage = async function (msgEvent) {
             let price = body.data.price;
             let timeout = 8400;
 
+            ChatbotDebug.log(`${uname} ${action} ${num} 个 ${giftName}`);
+
             // 判断 礼物类型并计数
             if (coinType == "gold") {
               ChatbotDanmu.updateGiftCountByUsername(uname, num);
@@ -2762,48 +2982,56 @@ ws.onmessage = async function (msgEvent) {
                       "./img/Animal_Crossing_Leaf_White_01.png", 
                       username
                     );
-                    var randomColour = danmu.getRandomColour2();
-                    danmu.setProfilePhotoBackgroundColor(randomColour);
+
+                    let randomColour = danmu.getRandomColourSchemes();
+                    let randomLightColour = randomColour[0];
+                    let randomDarkColour = randomColour[1];
+                    danmu.setStaticUsernameBackgroundColour(randomLightColour);
+                    danmu.setProfilePhotoBackgroundColor(randomLightColour);
+                    danmu.setStaticUsernameColour(randomDarkColour);
 
                     // 获取并设置 用户头像
                     // 如果 【用户头像表】存在此用户，设置用户头像
                     // 如果，不存在，从API通过UID获取用户头像，并设置用户头像和记录到【用户头像表】
-                    if (
-                      ChatbotDanmu.getProfilephotoSrcByUsername(username) != false
-                    ) {
-                      danmu.setProfilePhoto(
-                        ChatbotDanmu.getProfilephotoSrcByUsername(username)
-                      );
-                    } else {
-                      let ajaxurl = `https://tenapi.cn/v2/biliinfo?uid=${profilephoto}`;
-                      ChatbotUtil.doAjaxGetRL(ajaxurl)
-                        .then((response) => {
-                          let data = JSON.parse(response);
-                          if (data.code == 200) {
-                            let profilePhoto = data.data.avatar;
-                            if (profilePhoto != null) {
-                              ChatbotDanmu.updateProfilephotoSrcByUsername(
-                                username,
-                                profilePhoto
-                              );
-                              danmu.setProfilePhoto(profilePhoto);
+                    if (ChatbotDanmu.isShowUserface) {
+                      if (
+                        ChatbotDanmu.getProfilephotoSrcByUsername(username) != false
+                      ) {
+                        danmu.setProfilePhoto(
+                          ChatbotDanmu.getProfilephotoSrcByUsername(username)
+                        );
+                      } else {
+                        let ajaxurl = `https://tenapi.cn/v2/biliinfo?uid=${profilephoto}`;
+                        ChatbotUtil.doAjaxGetRL(ajaxurl)
+                          .then((response) => {
+                            let data = JSON.parse(response);
+                            if (data.code == 200) {
+                              let profilePhoto = data.data.avatar;
+                              if (profilePhoto != null) {
+                                ChatbotDanmu.updateProfilephotoSrcByUsername(
+                                  username,
+                                  profilePhoto
+                                );
+                                danmu.setProfilePhoto(profilePhoto);
+                              }
+                            } else if (data.code == 201) {
+                              if (ChatbotUtil.isAjaxLocked == false) {
+                                ChatbotUtil.ajaxLock();
+                                let log = `${ChatbotUtil.getTime()} API获取失败，请求已锁定`;
+                                log += ` | 解锁时间：${new Date(ChatbotUtil.ajaxUnlockTime
+                                  ).toLocaleString()}`;
+                                ChatbotDebug.display(log);
+                                console.log(log);
+                              }
                             }
-                          } else if (data.code == 201) {
-                            if (ChatbotUtil.isAjaxLocked == false) {
-                              ChatbotUtil.ajaxLock();
-                              let log = `${ChatbotUtil.getTime()} API获取失败，请求已锁定`;
-                              log += ` | 解锁时间：${new Date(ChatbotUtil.ajaxUnlockTime
-                                ).toLocaleString()}`;
-                              ChatbotDebug.display(log);
-                              console.log(log);
-                            }
+                          },
+                          (Error) => {
+                            console.log(Error);
                           }
-                        },
-                        (Error) => {
-                          console.log(Error);
-                        }
-                      );
+                        );
+                      }
                     }
+                    
                     danmu.setHashidsWithName("visitor"); //设置带名称的唯一标识 Hashid
                     danmu.addDanmu(danmu.appframe_visitorqueuedisplay);
                     danmu.destoryDanmu(8400);
@@ -2819,6 +3047,7 @@ ws.onmessage = async function (msgEvent) {
                     message: `${username} 关注了你！`, 
                     appFrame: ChatbotDanmu.appframe_likedisplay_id
                   });
+                  ChatbotUtil.playSfx("./audio/mixkit-fairy-bells-583.wav", "follow");
                   danmu.destory(8400);
                 }  
                 break;
@@ -2832,6 +3061,7 @@ ws.onmessage = async function (msgEvent) {
                     message: `${username} 分享了直播间`, 
                     appFrame: ChatbotDanmu.appframe_likedisplay_id
                   });
+                  ChatbotUtil.playSfx("./audio/mixkit-fairy-bells-583.wav", "share");
                   danmu.destory(8400);
                 }  
                 break;
@@ -2851,8 +3081,10 @@ ws.onmessage = async function (msgEvent) {
           case "LIKE_INFO_V3_CLICK":
             if (ChatbotDanmu.isShowLikeNotice) {
               var like_uname = body.data.uname;
-              body.data.like_text;
+              var like_text = body.data.like_text;
               body.data.like_icon;
+
+              ChatbotDebug.log(`${like_uname} ${like_text}`);
 
               // 点赞计数
               ChatbotDanmu.updateLikeCountByUsername(like_uname, 1);
@@ -2882,6 +3114,8 @@ ws.onmessage = async function (msgEvent) {
               body.data.user_info.face;
               body.data.price;
               var super_chat_time = body.data.time;
+
+              ChatbotDebug.log(`${super_chat_uname}: ${super_chat_msg}`);
 
               // 添加一条系统通知 用系统通知方法
               var super_chat_danmu = new ChatbotDanmu();
@@ -2921,6 +3155,8 @@ ws.onmessage = async function (msgEvent) {
               reg = new RegExp("%>");
               entry_msg = entry_msg.replace(reg, "");
               body.data.face;
+
+              ChatbotDebug.log(entry_msg);
 
               // 添加一条系统通知 用系统通知方法
               var entry_danmu = new ChatbotDanmu();
