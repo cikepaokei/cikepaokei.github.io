@@ -2519,7 +2519,7 @@ ws.onmessage = async function (msgEvent) {
       // 添加一条系统通知 用系统通知方法
       var system_message_new = new ChatbotDanmu();
       system_message_new.createSystemDanmu(
-        "当前版本: V20230225 | Dev: Cikepaokei"
+        "当前版本: V20230319 | Dev: Cikepaokei"
       );
       // system_message_new.setHashids();  // 不带标识的Hashid
       system_message_new.setHashidsWithName("sysmsg"); // 设置带标识的Hashid
@@ -2843,7 +2843,12 @@ ws.onmessage = async function (msgEvent) {
             }
             
             // 添加时间标签
-            danmu.addTimeLabel(ChatbotUtil.getTimeWithoutSecond());
+            // 24时小时制
+            // danmu.addTimeLabel(ChatbotUtil.getTimeWithoutSecond());
+            // 12时小时制
+            danmu.addTimeLabel(
+              `${ChatbotUtil.getHours12()} ${ChatbotUtil.getDaynight()}`
+            );
 
             danmu.setHashidsWithName("danmumsg"); //设置带名称的唯一标识 Hashid
             danmu.addSpecialImageByData(message);
