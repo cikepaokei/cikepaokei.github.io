@@ -3534,7 +3534,7 @@ ws.onmessage = async function (msgEvent) {
       var loading = new ChatbotLoading();
       var loading_element = loading.create({
         message: `检查更新...`,
-        iconsrc: "../../img/icons8-sand-watch-96.png"
+        iconsrc: "./img/icons8-sand-watch-96.png"
       });
       document.getElementById(ChatbotDanmu.appframe_giftdisplay_id).appendChild(loading_element);
       loading.popup();
