@@ -3329,7 +3329,16 @@ ws.onclose = function () {
     });
     ChatbotUtil.playSfx("./audio/stop-13692.mp3", "sys");
     // danmu.destory(8400);
-  }  
+  } 
+  
+  // 【2024.03.25】Bilibili API更改，原先Websocket长连接Body失效已经不可用，临时增加通知框
+  let danmu2 = new ChatbotRoundDanmu();
+  danmu2.createToAppFrame({
+    username: "通知",
+    message: `⚠ Chatbot当前版本已停用，正在移至Bilibili官方平台【幻星互动/饭贩】。`, 
+    appFrame: ChatbotDanmu.appframe_likedisplay_id
+  });
+  ChatbotUtil.playSfx("./audio/stop-13692.mp3", "sys");
 };
 
 ws.onerror = function () {
